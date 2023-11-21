@@ -50,19 +50,20 @@ print()
 
 # MAIN
 
-# a = input("Input a string of form w w^R: ")
+a = input("Input a string of form w w^R: ")
 # start_node = node(wwR.start_state, a, stack(wwR.start_symbol))
 # wwR = getPDA("config.txt")
 
 # for i in wwR.delta.transitions:
 #     print(i)
 
-inputstr = getText("test2.html")
-print(inputstr)
+# inputstr = getText("test2.html")
+# print(inputstr)
 
 
 
-# inputstr = "aaccaa"
+# inputstr = "abba"
+inputstr = a
 # print(inputstr,end="")
 
 start_node = node(wwR.start_state, inputstr, stack(wwR.start_symbol))

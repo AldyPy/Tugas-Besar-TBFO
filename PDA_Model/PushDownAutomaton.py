@@ -77,7 +77,7 @@ class node:
 # startstack        : simbol yang di-'consume' pada top dari stack ketika melakukan transisi (tidak lebih dari satu)
 # endstack          : simbol yang di push ke stack setelah melakukan transisi (bisa lebih dari satu)
 class singleTransition:
-    def __init__ (self, startstate: state, symbol: str, startstack: str, endstate: state, endstack: str):
+    def __init__ (self, startstate: state, symbol: str, startstack: str, endstate: state, endstack: list[str]):
         
         self.startstate = startstate
         self.endstate = endstate
@@ -156,7 +156,7 @@ class PushDownAutomaton():
                     for j in i.endstack:
                         a.stack.push(j)
 
-                result |= a
+                result |= {a}
 
         
         return result
@@ -186,8 +186,8 @@ class PushDownAutomaton():
                     for j in i.endstack:
                         a.stack.push(j)
 
-                # print(i.startstack, i.endstack)   # For debugging; print resulting node set
-                # print(a)                          
+                print(i.startstack, i.endstack)   # For debugging; print resulting node set
+                print(a)                          
                 resultingNodes.add(a)
 
         actualResultingNodes = set()                # The correct result after unioning the previous
@@ -219,6 +219,7 @@ def compute(PDA: PushDownAutomaton, current_nodes: set[node]) -> bool:
         elif PDA.acceptkey == 'E':
             for i in current_nodes:
                 if i.stack.isEmpty():
+                    print(current_nodes)
                     return True
                 
         return False

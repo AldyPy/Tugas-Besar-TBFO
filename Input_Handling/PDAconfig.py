@@ -54,7 +54,7 @@ def getPDA(file_name):
             starting_state = states_dict[getWords(line)[0]]
         elif (line_count ==5):
             starting_stack = getWords(line)[0]
-        elif (line_count ==6):
+        elif (line_count == 6):
             for i in getWords(line):
                 accepting_states |= {states_dict[i]}
         elif (line_count == 7):
@@ -66,13 +66,13 @@ def getPDA(file_name):
             _ = getWords(line)
             
             s1=_[0]
-            s2=_[1]
+            s2= epsilon if (_[1] == "epsilon") else _[1]
             s3= epsilon if (_[2] == "epsilon") else _[2]
-            s4= epsilon if (_[3] == "epsilon") else _[3]
-            s5= epsilon if (_[4] == "epsilon") else _[4]
+            s4= _[3]
+            s5= epsilon if (_[4] == "epsilon") else list(_[4])
             
             
-            delta.addTransition(singleTransition(states_dict[s1], states_dict[s2], s3, s4, s5))
+            delta.addTransition(singleTransition(states_dict[s1], s2, s3, states_dict[s4], s5))
                 
             
         line_count += 1

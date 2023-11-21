@@ -17,6 +17,11 @@ def isHTML_Accepted(PDAConfigpath: str, HTMLpath: str) -> bool:
 
     start_nodes = PDA.epsilonclosure(node(PDA.start_state, InputStr, stack(PDA.start_symbol)))
 
+    # for i in start_nodes:
+    #     print(i)
+    for i in PDA.delta.transitions:
+        print(i)
+
     return compute(PDA, start_nodes)
 
 # main

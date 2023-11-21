@@ -38,14 +38,17 @@ def cfgToPDA(path):
                             if (not(char in terminals)):
                                 terminals.append(char)
                         sigma.append(state)
-                        sigma.append(word)
+                        if (word == "EMPTY"):
+                            sigma.append("epsilon")
+                        else:
+                            sigma.append(word)
                     count += 1
             # print(sigma)
             pda.append(sigma)
             sigma = []
             line = f.readline()
     # print(f"terminal: {terminals}")
-    return pda, terminals
+    return pda, list(set(terminals)), list(set(nonTerminals))
 
 def processedListPDA(pda,terminals):
     temp = []
@@ -70,14 +73,21 @@ def processedListPDA(pda,terminals):
     return temp
 
 
-def writeToFile(processedPDA):
-    with open('output.txt', 'w') as f:
+def writeToFile(processedPDA,terminals,nonTerminals):
+    with open('config.txt', 'w') as f:
+        f.write('Q#\n')
+        f.write(' '.join(terminals)+'#\n')
+        f.write(' '.join(nonTerminals)+'#\n')
+        f.write('Q#\n')
+        f.write('Z#\n')
+        f.write('Q#\n')
+        f.write('E#\n')
         for row in processedPDA:
-            f.write(' '.join([str(a) for a in row]) + '\n')
+            f.write(' '.join([str(a) for a in row]) + '#\n')
 
-pda, terminals = cfgToPDA("grammar.txt")
+pda, terminals, nonTerminals = cfgToPDA("grammartest.txt")
 a=processedListPDA(pda,terminals)
-writeToFile(a)
+writeToFile(a,terminals,nonTerminals)
 
 # def converterCFG(cfg_path):
 #     pda,terminals = cfgToPDA(cfg_path)

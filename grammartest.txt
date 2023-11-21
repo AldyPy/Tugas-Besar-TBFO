@@ -1,0 +1,1 @@
+S -> EMPTY | a S a | b S b
