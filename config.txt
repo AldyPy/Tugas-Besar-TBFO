@@ -1,0 +1,17 @@
+q0# total states
+q w e r t y u i o p a s d f g h j k l z x c b n m# input word symbols
+q w e r t y u i o p a s d f g h j k l z x c b n m# stack symbols
+q0# starting state
+Z# starting stack
+q0# accepting states
+E# - accepts with empty stack or F - accepts with accepting state
+q0 q0 epsilon a a#
+q0 q0 a epsilon a#
+q0 q0 epsilon e e#
+q0 q0 e epsilon e#
+q0 q0 epsilon b b#
+q0 q0 b epsilon b#
+q0 q0 epsilon c c#
+q0 q0 c epsilon c#
+q0 q0 epsilon d d#
+q0 q0 d epsilon d#

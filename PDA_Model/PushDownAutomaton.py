@@ -77,7 +77,8 @@ class node:
 # startstack        : simbol yang di-'consume' pada top dari stack ketika melakukan transisi (tidak lebih dari satu)
 # endstack          : simbol yang di push ke stack setelah melakukan transisi (bisa lebih dari satu)
 class singleTransition:
-    def __init__ (self, startstate: state, endstate: state, startstack: str, endstack: str, symbol: str):
+    def __init__ (self, startstate: state, symbol: str, startstack: str, endstate: state, endstack: str):
+        
         self.startstate = startstate
         self.endstate = endstate
         self.startstack = startstack
@@ -131,6 +132,7 @@ class PushDownAutomaton():
     # Definisi transitionable: mengembalikan true jika inputstr bisa ditransisi i.e. ada simbol nya di Epsilon
     def transitionable(PDA, symbol: str) -> bool:
         if not (symbol in PDA.Epsilon):
+            print("WHAAAAAAA")
             return False
         else:
             return True
@@ -164,12 +166,15 @@ class PushDownAutomaton():
     def transition(PDA, P: node) -> set[node]:
         resultingNodes = set()
         symbol = P.inputstr[0]
+        
+        # print(symbol)
 
         for i in (PDA.delta.transitions):
+
             if (P.state == i.startstate) and (symbol == i.symbol) and (
                     (i.startstack == P.stack.top()) or (i.startstack == epsilon)
                 ):
-
+                # print("UUUUUUWUUUUUU")
                 # Create resulting node
                 a = node(i.endstate, P.inputstr[1:], copystack(P.stack))
 
@@ -202,6 +207,7 @@ def compute(PDA: PushDownAutomaton, current_nodes: set[node]) -> bool:
     stop = True
     for i in current_nodes:
         if i.inputstr != epsilon: 
+            # print("P epsilon")
             stop = False
     
     if (stop):
@@ -221,7 +227,6 @@ def compute(PDA: PushDownAutomaton, current_nodes: set[node]) -> bool:
     # Otherwise, lanjutkan pemroresan PDA
         setOfEndNodes = set()
         for i in current_nodes:
-
             setOfEndNodes |= PDA.transition(i) # Semua achievable state dari set current state yg ada
 
         return compute(PDA, setOfEndNodes)
