@@ -137,3 +137,4 @@ FORM_OPT_ATTRIBUTES -> type="text" | type="password" | type="email" | type="numb
 VALUE_TITLE -> VALUE | <LINK> | SCRIPT | EMPTY
 VALUE_TABLE -> <tr> VALUE </tr> | <td> VALUE </td> | <th> VALUE </th>
 STYLE -> VALUE: VALUE; 
+VALUE -> (SIGMA) VALUE | EPSILON
