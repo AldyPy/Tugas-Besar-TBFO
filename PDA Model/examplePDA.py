@@ -1,4 +1,6 @@
 from PushDownAutomaton import *
+from PDAconfig import *
+from htmlInput import *
 # Contoh driver program
 
 """ CONTOH PENGGUNAAN PDA """
@@ -38,10 +40,22 @@ wwR = PushDownAutomaton(
 )
 
 
-# MAIN
-a = input("Input a string of form w w^R: ")
-start_node = node(wwR.start_state, a, stack(wwR.start_symbol))
+print()
 
+# MAIN
+
+# a = input("Input a string of form w w^R: ")
+# start_node = node(wwR.start_state, a, stack(wwR.start_symbol))
+# wwR = getPDA("config.txt")
+
+# for i in wwR.delta.transitions:
+#     print(i)
+
+inputstr = getText("test2.html")
+# inputstr = "aaccaa"
+# print(inputstr,end="")
+
+start_node = node(wwR.start_state, inputstr, stack(wwR.start_symbol))
                   
 correct = compute(wwR, wwR.epsilonclosure(start_node))
 if correct:

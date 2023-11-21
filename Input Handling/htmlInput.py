@@ -7,12 +7,19 @@ def readChar(file_path):
             yield char
 
 
-html_file_path = 'test.html'
-html_reader = readChar(html_file_path)
+def getText(namafile: str):
+    html_reader = readChar(namafile)
+    text = ""
+    while True:
+        next_character = next(html_reader, None)
+        if next_character is None:
+            break 
+        elif (next_character == " " or next_character== "\n"):
+            pass
+        else:
+            text += next_character
+            
+    return text
+        
 
-# Contoh iterasi, menampilkan file html
-while True:
-    next_character = next(html_reader, None)
-    if next_character is None:
-        break 
-    print(next_character, end="")
+    
