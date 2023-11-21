@@ -1,10 +1,16 @@
-from PushDownAutomaton import *
-from PDAconfig import *
-from htmlInput import *
+import os
+import sys
+
+parent_directory = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
+sys.path.append(parent_directory)
+
+from Input_Handling.htmlInput import *
+from Input_Handling.PDAconfig import *
+from PDA_Model.PushDownAutomaton import *
 # Contoh driver program
 
 """ CONTOH PENGGUNAAN PDA """
-# Mari buat PDA sederhana yang menerima:
+# kita buat PDA sederhana yang menerima:
 # {w w^R | w^R adalah reverse dari w, w terdiri dari huruf kecil alfabet}}
 # (BUKAN PALINDROM)
 
@@ -23,8 +29,8 @@ delta = transitionFunction("delta", set())
 for i in lowercaseletters:
     Epsilon |= {i}
     Gamma |= {i}
-    delta.addTransition(singleTransition(q0, q0, epsilon, i, i))
-    delta.addTransition(singleTransition(q0, q0, i, epsilon, i))
+    delta.addTransition(singleTransition(q0, i, epsilon, q0, i))
+    delta.addTransition(singleTransition(q0, i, i, q0, epsilon))
 
 # Definisi PDA: State awal sekaligus satu-satunya state = q0, start_symbol stack adalah Z,
 # dan PDA menerima string ketika empty stack
@@ -52,6 +58,10 @@ print()
 #     print(i)
 
 inputstr = getText("test2.html")
+print(inputstr)
+
+
+
 # inputstr = "aaccaa"
 # print(inputstr,end="")
 

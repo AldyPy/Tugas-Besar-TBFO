@@ -1,6 +1,10 @@
-from PushDownAutomaton import *
+import os
+import sys
 
+parent_directory = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
+sys.path.append(parent_directory)
 
+from PDA_Model.PushDownAutomaton import *
 
 # Mengembalikan set dari tiap kata dalam line
 def getWords(line):
@@ -34,11 +38,8 @@ def getPDA(file_name):
     starting_stack = set()
     accepting_states = set()
     accept = set()
-    productions = set()
 
     states_dict = {} # Keynya string valuenya state,  Productions dijadiin transition function
-
-    AcceptKey = "F"
 
     for line in f:
         if (line_count ==1):
@@ -56,7 +57,7 @@ def getPDA(file_name):
         elif (line_count ==6):
             for i in getWords(line):
                 accepting_states |= {states_dict[i]}
-        elif (line_count ==7):
+        elif (line_count == 7):
             if ("F" in getWords(line)):
                 accept |= {"F"}
             if ("E" in getWords(line)):

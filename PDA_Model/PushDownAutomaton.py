@@ -77,7 +77,8 @@ class node:
 # startstack        : simbol yang di-'consume' pada top dari stack ketika melakukan transisi (tidak lebih dari satu)
 # endstack          : simbol yang di push ke stack setelah melakukan transisi (bisa lebih dari satu)
 class singleTransition:
-    def __init__ (self, startstate: state, endstate: state, startstack: str, endstack: str, symbol: str):
+    def __init__ (self, startstate: state, symbol: str, startstack: str, endstate: state, endstack: str):
+        
         self.startstate = startstate
         self.endstate = endstate
         self.startstack = startstack
