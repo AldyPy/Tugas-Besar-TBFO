@@ -13,19 +13,22 @@ arguments = parser.parse_args()
 def isHTML_Accepted(PDAConfigpath: str, HTMLpath: str) -> bool:
 
     PDA = getPDA(PDAConfigpath)
+
     InputStr = getText(HTMLpath)
-
-    start_nodes = PDA.epsilonclosure(node(PDA.start_state, InputStr, stack(PDA.start_symbol)))
-
+    start_node = node(PDA.start_state, InputStr, stack(PDA.start_symbol))
+    start_nodes = PDA.epsilonclosure(start_node)
+    # newset = set()
     # for i in start_nodes:
     #     print(i)
-    for i in PDA.delta.transitions:
-        print(i)
+    # newset |= PDA.epsilonclosure(i)
 
-    return compute(PDA, start_nodes)
+    # for i in newset:
+    #     print(i)
+
+    return compute(PDA, start_nodes, 0)
 
 # main
 if (isHTML_Accepted(str(arguments.pdaconfig), str(arguments.htmlpath))):
-    print("Accepted")
+    print("\x1b[32mAccepted\x1b[30m")
 else:
-    print("Syntax Error")
+    print("\x1b[31mSyntax Error\x1b[30m")

@@ -1,4 +1,4 @@
-S -> < html > HTML < /html >
+[S] -> <html>[HTML]</html>
 HTML -> <head HTML_ATTRIBUTES > TITLE </head> <body BODY_ATTRIBUTES > BODY </body>
 TITLE -> <title> VALUE_TITLE </title>
 BODY -> COMMENT
@@ -140,4 +140,7 @@ VALUE_TITLE -> VALUE | <LINK> | SCRIPT | EMPTY
 VALUE_TABLE -> <tr> VALUE </tr> | <td> VALUE </td> | <th> VALUE </th>
 STYLE -> VALUE: VALUE; 
 VALUE -> ALLSYMBOLS VALUE | EMPTY
-ALLSYMBOLS -> " ALLSYMBOLS | EMPTY
+ALLSYMBOLS -> a
+ALLSYMBOLS -> b
+ALLSYMBOLS -> c
+ALLSYMBOLS -> d

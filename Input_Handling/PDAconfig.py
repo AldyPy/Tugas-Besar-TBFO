@@ -15,7 +15,7 @@ def getWords(line):
             Words.append(Word)
             Word =""
 
-        elif (char =="#"):
+        elif (char =="\n"):
             Words.append(Word)
             break
     
@@ -67,12 +67,45 @@ def getPDA(file_name):
             
             s1=_[0]
             s2= epsilon if (_[1] == "epsilon") else _[1]
-            s3= epsilon if (_[2] == "epsilon") else _[2]
+            try:
+                s3= epsilon if (_[2] == '[EMPTY]') else _[2]
+            except:
+                print(line_count)
+                print(_)
             s4= _[3]
-            s5= epsilon if (_[4] == "epsilon") else list(_[4])
-            
-            
-            delta.addTransition(singleTransition(states_dict[s1], s2, s3, states_dict[s4], s5))
+
+            listOfStackValues = []
+
+            try:
+                s5 = _[4]
+            except:
+                print(line_count)
+            if s5 in ['[', ']']:
+                listOfStackValues.append(s5) 
+
+            else:
+                i = 0
+                
+                while i < len(s5):
+                    
+                    char = s5[i]
+                    if char != '[':
+                        listOfStackValues.append(char)
+                        i += 1
+                    else:
+                        token = ""
+                        i -=- 1
+                        char = s5[i]
+                        while char != ']':
+                            token += char
+                            i += 1
+                            char = s5[i]
+                        
+                        if token != "EMPTY":
+                            listOfStackValues.append(token)
+                        i += 1
+                
+                delta.addTransition(singleTransition(states_dict[s1], s2, s3, states_dict[s4], listOfStackValues[::-1]))
                 
             
         line_count += 1

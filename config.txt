@@ -1,8 +1,130 @@
-Q#
-P b T M Y E a S#
-S#
-Q#
-Z#
-Q#
-E#
-Q epsilon epsilon Q S
+Q
+q w e r t y u i o p a s d f g h j k l z x c v b n m Q W E R T Y U I O P A S D F G H J K L Z X C V B N M 1 2 3 4 5 6 7 8 9 0 " ' ` ~ ! @ # $ % ^ & * ( ) _ + - = [ ] \ { } | ; < > ? , . / 
+COMMENT START HEAD_ATTRIBUTES ALLSYMBOLS BODY_ATTRIBUTES TITLE HTML BODY HTML_ATTRIBUTES VALUE
+Q
+Z0
+Q
+E
+Q epsilon Z0 Q [START][Z0]
+Q epsilon START Q <html[HTML_ATTRIBUTES]>[HTML]</html>
+Q epsilon HTML Q <head[HEAD_ATTRIBUTES]>[TITLE]</head><body[BODY_ATTRIBUTES]>[BODY]</body>
+Q epsilon BODY_ATTRIBUTES Q [EMPTY]
+Q epsilon BODY_ATTRIBUTES Q style="[VALUE]"
+Q epsilon BODY_ATTRIBUTES Q [EMPTY]
+Q epsilon BODY_ATTRIBUTES Q class="[VALUE]"
+Q epsilon BODY_ATTRIBUTES Q [EMPTY]
+Q epsilon BODY_ATTRIBUTES Q id="[VALUE]"
+Q epsilon HTML_ATTRIBUTES Q [EMPTY]
+Q epsilon HTML_ATTRIBUTES Q id="[VALUE]"
+Q epsilon HTML_ATTRIBUTES Q [EMPTY]
+Q epsilon HTML_ATTRIBUTES Q class="[VALUE]"
+Q epsilon HTML_ATTRIBUTES Q [EMPTY]
+Q epsilon HTML_ATTRIBUTES Q style="[VALUE]"
+Q epsilon HEAD_ATTRIBUTES Q [EMPTY]
+Q epsilon HEAD_ATTRIBUTES Q id="[VALUE]"
+Q epsilon HEAD_ATTRIBUTES Q [EMPTY]
+Q epsilon HEAD_ATTRIBUTES Q class="[VALUE]"
+Q epsilon HEAD_ATTRIBUTES Q [EMPTY]
+Q epsilon HEAD_ATTRIBUTES Q style="[VALUE]"
+Q epsilon TITLE Q <title>[COMMENT]</title>
+Q epsilon COMMENT Q [EMPTY]
+Q epsilon COMMENT Q <!---->
+Q epsilon TITLE Q [EMPTY]
+Q epsilon BODY Q [COMMENT]
+Q epsilon BODY Q [VALUE]
+Q epsilon BODY Q [EMPTY]
+Q epsilon VALUE V [EMPTY]
+Q epsilon ALLSYMBOLS Q [EMPTY]
+Q q q Q [EMPTY]
+Q w w Q [EMPTY]
+Q e e Q [EMPTY]
+Q r r Q [EMPTY]
+Q t t Q [EMPTY]
+Q y y Q [EMPTY]
+Q u u Q [EMPTY]
+Q i i Q [EMPTY]
+Q o o Q [EMPTY]
+Q p p Q [EMPTY]
+Q a a Q [EMPTY]
+Q s s Q [EMPTY]
+Q d d Q [EMPTY]
+Q f f Q [EMPTY]
+Q g g Q [EMPTY]
+Q h h Q [EMPTY]
+Q j j Q [EMPTY]
+Q k k Q [EMPTY]
+Q l l Q [EMPTY]
+Q z z Q [EMPTY]
+Q x x Q [EMPTY]
+Q c c Q [EMPTY]
+Q v v Q [EMPTY]
+Q b b Q [EMPTY]
+Q n n Q [EMPTY]
+Q m m Q [EMPTY]
+Q Q Q Q [EMPTY]
+Q W W Q [EMPTY]
+Q E E Q [EMPTY]
+Q R R Q [EMPTY]
+Q T T Q [EMPTY]
+Q Y Y Q [EMPTY]
+Q U U Q [EMPTY]
+Q I I Q [EMPTY]
+Q O O Q [EMPTY]
+Q P P Q [EMPTY]
+Q A A Q [EMPTY]
+Q S S Q [EMPTY]
+Q D D Q [EMPTY]
+Q F F Q [EMPTY]
+Q G G Q [EMPTY]
+Q H H Q [EMPTY]
+Q J J Q [EMPTY]
+Q K K Q [EMPTY]
+Q L L Q [EMPTY]
+Q Z Z Q [EMPTY]
+Q X X Q [EMPTY]
+Q C C Q [EMPTY]
+Q V V Q [EMPTY]
+Q B B Q [EMPTY]
+Q N N Q [EMPTY]
+Q M M Q [EMPTY]
+Q 1 1 Q [EMPTY]
+Q 2 2 Q [EMPTY]
+Q 3 3 Q [EMPTY]
+Q 4 4 Q [EMPTY]
+Q 5 5 Q [EMPTY]
+Q 6 6 Q [EMPTY]
+Q 7 7 Q [EMPTY]
+Q 8 8 Q [EMPTY]
+Q 9 9 Q [EMPTY]
+Q 0 0 Q [EMPTY]
+Q " " Q [EMPTY]
+Q ' ' Q [EMPTY]
+Q ` ` Q [EMPTY]
+Q ~ ~ Q [EMPTY]
+Q ! ! Q [EMPTY]
+Q @ @ Q [EMPTY]
+Q # # Q [EMPTY]
+Q $ $ Q [EMPTY]
+Q % % Q [EMPTY]
+Q ^ ^ Q [EMPTY]
+Q & & Q [EMPTY]
+Q * * Q [EMPTY]
+Q ( ( Q [EMPTY]
+Q ) ) Q [EMPTY]
+Q _ _ Q [EMPTY]
+Q + + Q [EMPTY]
+Q - - Q [EMPTY]
+Q = = Q [EMPTY]
+Q [ [ Q [EMPTY]
+Q ] ] Q [EMPTY]
+Q \ \ Q [EMPTY]
+Q { { Q [EMPTY]
+Q } } Q [EMPTY]
+Q | | Q [EMPTY]
+Q ; ; Q [EMPTY]
+Q < < Q [EMPTY]
+Q > > Q [EMPTY]
+Q ? ? Q [EMPTY]
+Q , , Q [EMPTY]
+Q . . Q [EMPTY]
+Q / / Q [EMPTY]

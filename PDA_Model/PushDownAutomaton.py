@@ -19,14 +19,17 @@ class stack:
         self.elements = [start_element]
     
     def top(self):
-        return f"{self.elements[-1 + len(self.elements)]}"
+        return f"{self.elements[0]}"
 
     def push(self, value):
-        self.elements.append(value)
+        self.elements.append("dummy")
+        for i in range(len(self.elements) - 1, 0, -1):
+            self.elements[i] = self.elements[i-1]
+        self.elements[0] = value
     
     def pop(self):
         val = self.top()
-        self.elements = self.elements[0:-1+len(self.elements):]
+        self.elements = self.elements[1:len(self.elements):]
         return val
 
     def isEmpty(self) -> bool:
@@ -66,7 +69,7 @@ class node:
         self.stack = stack
 
     def __str__(self):
-        return f"({self.state},{self.inputstr},{''.join(str(item) for item in self.stack.elements)})"
+        return f"({self.state},{self.inputstr},{self.stack.elements})"
     
 
 # definisi single transition function
@@ -86,7 +89,7 @@ class singleTransition:
         self.symbol = symbol
 
     def __str__(self):
-        return f"({self.startstate},{self.startstack},{self.symbol} -> {self.endstate},{self.endstack})"
+        return f"({self.startstate},{self.symbol},{self.startstack} -> {self.endstate},{self.endstack})"
 
 # definisi transition function (yaitu a set of single transition functions)
 # mempunyai dua parameter, yaitu sebagai berikut
@@ -132,7 +135,6 @@ class PushDownAutomaton():
     # Definisi transitionable: mengembalikan true jika inputstr bisa ditransisi i.e. ada simbol nya di Epsilon
     def transitionable(PDA, symbol: str) -> bool:
         if not (symbol in PDA.Epsilon):
-            print("WHAAAAAAA")
             return False
         else:
             return True
@@ -143,21 +145,24 @@ class PushDownAutomaton():
         result = {P}
 
         for i in PDA.delta.transitions: # Find all satisfiable epsilon transitions
-            if i.startstate == P.state and i.symbol == epsilon and i.startstack == P.stack.top():
+
+            if ((i.startstate == P.state) and (i.symbol == epsilon) and (i.startstack == P.stack.top() or i.startstack == epsilon)):
 
                 # Create resulting node
-                a = node(i.endstate, P.inputstr, P.stack)
+                a = node(i.endstate, P.inputstr, copystack(P.stack))
 
                 # Push and pop to the stack
                 if (i.startstack != epsilon):
                     _ = a.stack.pop()
                 
-                if (i.endstack != epsilon):
+                if (len(i.endstack) != 0):
                     for j in i.endstack:
                         a.stack.push(j)
 
                 result |= {a}
 
+        # for i in result:
+        #     print(i)
         
         return result
     
@@ -166,15 +171,14 @@ class PushDownAutomaton():
     def transition(PDA, P: node) -> set[node]:
         resultingNodes = set()
         symbol = P.inputstr[0]
-        
-        # print(symbol)
+
+        # print(P.stack.top())
 
         for i in (PDA.delta.transitions):
-
-            if (P.state == i.startstate) and (symbol == i.symbol) and (
+            
+            if (P.state == i.startstate) and ((symbol == i.symbol)) and (
                     (i.startstack == P.stack.top()) or (i.startstack == epsilon)
                 ):
-                # print("UUUUUUWUUUUUU")
                 # Create resulting node
                 a = node(i.endstate, P.inputstr[1:], copystack(P.stack))
 
@@ -182,52 +186,53 @@ class PushDownAutomaton():
                 if (i.startstack != epsilon):
                     _ = a.stack.pop()
                 
-                if (i.endstack != epsilon):
+                if (len(i.endstack) != 0):
                     for j in i.endstack:
                         a.stack.push(j)
 
-                print(i.startstack, i.endstack)   # For debugging; print resulting node set
-                print(a)                          
+                # print(i.startstack, i.endstack)   # For debugging; print resulting node set
                 resultingNodes.add(a)
 
-        actualResultingNodes = set()                # The correct result after unioning the previous
-        for i in resultingNodes:                    # result all with the resulting state snodes' e-Closures
-            actualResultingNodes |= PDA.epsilonclosure(i)
-        
-        return actualResultingNodes     # Jika tidak ditemukan transisi yang bisa dijalankan,
-                                        #  maka actualResultingNodes akan kosong
+        if (P.stack.top() in PDA.Gamma):
+            resultingNodes |= PDA.epsilonclosure(P)
+            resultingNodes = resultingNodes.difference({P})
+
+        return resultingNodes       # Jika tidak ditemukan transisi yang bisa dijalankan,
+                                    #  maka actualResultingNodes akan kosong
 
 
 # Definisi compute: fungsi yang mengembalikan TRUE jika input string diterima language PDA
 # dan FALSE jika tidak. Jangan lupa pemanggilan fungsi harus menggunakan epsilon closure 
 # dari node pertama (pada argument current_nodes).
-def compute(PDA: PushDownAutomaton, current_nodes: set[node]) -> bool:
+def compute(PDA: PushDownAutomaton, current_nodes: set[node], iterations: int) -> bool:
 
+    # print("\n\n\n")
+    # print("iteration =",  iterations)
     # Jika inputstring sudah habis, cek jika set of states mengandung setidaknya satu final state
-    stop = True
     for i in current_nodes:
-        if i.inputstr != epsilon: 
-            # print("P epsilon")
-            stop = False
-    
-    if (stop):
-        if PDA.acceptkey == 'F':
-            for i in current_nodes:
+
+        if (i.inputstr == epsilon):
+            
+            if PDA.acceptkey == 'E' and i.stack.isEmpty(): 
+                return True
+            
+            elif PDA.acceptkey == 'F':
                 if i.state in PDA.F:
                     return True
-        
-        elif PDA.acceptkey == 'E':
-            for i in current_nodes:
-                if i.stack.isEmpty():
-                    print(current_nodes)
-                    return True
-                
-        return False
+ 
     
-    else:
-    # Otherwise, lanjutkan pemroresan PDA
-        setOfEndNodes = set()
-        for i in current_nodes:
+    setOfEndNodes = set()
+    for i in current_nodes:
+        if (i.inputstr != epsilon):
+            print(i)
             setOfEndNodes |= PDA.transition(i) # Semua achievable state dari set current state yg ada
 
-        return compute(PDA, setOfEndNodes)
+    if len(setOfEndNodes) == 0:
+        for i in current_nodes:
+            print(i)
+            print("\n\n\n")
+            # for j in (PDA.epsilonclosure(i)):
+
+        return False
+
+    return compute(PDA, setOfEndNodes, iterations + 1)

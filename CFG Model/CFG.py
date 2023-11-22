@@ -1,14 +1,21 @@
+lowercase = "qwertyuiopasdfghjklzxcvbnm"
+uppercase = "QWERTYUIOPASDFGHJKLZXCVBNM"
+numbers = "1234567890"
+symbols = "\"\'`~!@#$%^&*()_+-=[]\{}|;<>?,./"
+
+all_characters = lowercase + uppercase + numbers + symbols
+
 def terminalsToPDA(pda,terminals):
     sigma = []
     state = pda[0][0]
-    print(state)
+    # print(state)
     for element in terminals:
         temp = []
         temp.append(state)
         temp.append(element)
         temp.append(element)
         temp.append(state)
-        temp.append("epsilon")
+        temp.append("[EMPTY]")
         sigma.append(temp)
     # print(f"pdaterminal: {sigma}")
     return sigma
@@ -24,7 +31,7 @@ def cfgToPDA(path):
         sigma = []
         while line:
             count = 1
-            currentTerminal = ""
+            # currentTerminal = ""
             for word in line.split():
                 if (word != "->" and word != "|"):
                     if count == 1:
@@ -45,10 +52,11 @@ def cfgToPDA(path):
                     count += 1
             # print(sigma)
             pda.append(sigma)
+            # print(sigma)
             sigma = []
             line = f.readline()
     # print(f"terminal: {terminals}")
-    return pda, list(set(terminals)), list(set(nonTerminals))
+    return pda, list(all_characters), list(set(nonTerminals))
 
 def processedListPDA(pda,terminals):
     temp = []
@@ -69,23 +77,29 @@ def processedListPDA(pda,terminals):
     pdaTerminals = terminalsToPDA(temp,terminals)
     for terminalSigma in pdaTerminals:
         temp.append(terminalSigma)
-    # print(f"temp: {temp}")
+    print(f"temp: {temp}")
     return temp
 
 
 def writeToFile(processedPDA,terminals,nonTerminals):
     with open('config.txt', 'w') as f:
-        f.write('Q#\n')
-        f.write(' '.join(terminals)+'#\n')
-        f.write(' '.join(nonTerminals)+'#\n')
-        f.write('Q#\n')
-        f.write('Z#\n')
-        f.write('Q#\n')
-        f.write('E#\n')
+        f.write('Q\n')
+        for i in all_characters:
+            f.write(i + " ")
+        f.write("\n")
+        f.write(' '.join(nonTerminals)+'\n')
+        f.write('Q\n')
+        f.write('Z0\n')
+        f.write('Q\n')
+        f.write('E\n')
+        f.write('Q epsilon Z0 Q [START][Z0]\n')
         for row in processedPDA:
-            f.write(' '.join([str(a) for a in row]) + '#\n')
+            f.write(' '.join([str(a) for a in row]) + '\n')
+        
+        for i in all_characters:
+            f.write(f"Q epsilon ALLSYMBOLS Q {i}\n")
 
-pda, terminals, nonTerminals = cfgToPDA("grammartest.txt")
+pda, terminals, nonTerminals = cfgToPDA("grammartest2.txt")
 a=processedListPDA(pda,terminals)
 writeToFile(a,terminals,nonTerminals)
 
