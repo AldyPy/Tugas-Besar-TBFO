@@ -63,13 +63,14 @@ class state:
 # Node terdiri dari state saat ini, sisa input string, serta isi stack.
 # Isi Node akan digunakan dalam fungsi transisi
 class node:
-    def __init__(self, state: state, inputstr: str, stack: stack):
+    def __init__(self, state: state, inputstr: list[str], stack: stack):
         self.state = state
         self.inputstr = inputstr
         self.stack = stack
 
     def __str__(self):
-        return f"({self.state},{self.inputstr},{self.stack.elements})"
+        titik_titik = "..." if len(self.inputstr) > 5 else ""
+        return f"State: {self.state}\nInput Token: {self.inputstr[0:7]}{titik_titik}\nStack: {self.stack.elements[0:7]})"
     
 
 # definisi single transition function
@@ -172,10 +173,13 @@ class PushDownAutomaton():
         resultingNodes = set()
         symbol = P.inputstr[0]
 
-        # print(P.stack.top())
+        # print(P.inputstr)
+
 
         for i in (PDA.delta.transitions):
             
+            # print(i.startstack)
+
             if (P.state == i.startstate) and ((symbol == i.symbol)) and (
                     (i.startstack == P.stack.top()) or (i.startstack == epsilon)
                 ):
@@ -197,42 +201,48 @@ class PushDownAutomaton():
             resultingNodes |= PDA.epsilonclosure(P)
             resultingNodes = resultingNodes.difference({P})
 
+        # if (P.stack.top() == P.inputstr[0] and P.inputstr[0] == "/"):
+        #     for j in resultingNodes:
+        #         print("Resulting nodes\n", j)
+
         return resultingNodes       # Jika tidak ditemukan transisi yang bisa dijalankan,
                                     #  maka actualResultingNodes akan kosong
 
+def isEmpty(arr: list):
+    return (len(arr) == 0)
 
 # Definisi compute: fungsi yang mengembalikan TRUE jika input string diterima language PDA
 # dan FALSE jika tidak. Jangan lupa pemanggilan fungsi harus menggunakan epsilon closure 
 # dari node pertama (pada argument current_nodes).
-def compute(PDA: PushDownAutomaton, current_nodes: set[node], iterations: int) -> bool:
+def compute(PDA: PushDownAutomaton, current_nodes: set[node], iterations: int, debugmode: bool) -> bool:
 
     # print("\n\n\n")
     # print("iteration =",  iterations)
     # Jika inputstring sudah habis, cek jika set of states mengandung setidaknya satu final state
     for i in current_nodes:
 
-        if (i.inputstr == epsilon):
+        if (isEmpty(i.inputstr)):
+
+            print("Ini kosong kok!\n")
             
             if PDA.acceptkey == 'E' and i.stack.isEmpty(): 
                 return True
             
             elif PDA.acceptkey == 'F':
                 if i.state in PDA.F:
-                    return True
- 
-    
+                    return True   
+
     setOfEndNodes = set()
     for i in current_nodes:
-        if (i.inputstr != epsilon):
-            print(i)
+        if not isEmpty(i.inputstr):
             setOfEndNodes |= PDA.transition(i) # Semua achievable state dari set current state yg ada
-
-    if len(setOfEndNodes) == 0:
-        for i in current_nodes:
+    
+    if debugmode:
+        print(f"\n------{iterations}-------\n")
+        for i in setOfEndNodes:
             print(i)
-            print("\n\n\n")
-            # for j in (PDA.epsilonclosure(i)):
 
+    if (isEmpty(setOfEndNodes)):
         return False
 
-    return compute(PDA, setOfEndNodes, iterations + 1)
+    return compute(PDA, setOfEndNodes, iterations + 1, debugmode)

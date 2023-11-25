@@ -1,130 +1,259 @@
-Q
-q w e r t y u i o p a s d f g h j k l z x c v b n m Q W E R T Y U I O P A S D F G H J K L Z X C V B N M 1 2 3 4 5 6 7 8 9 0 " ' ` ~ ! @ # $ % ^ & * ( ) _ + - = [ ] \ { } | ; < > ? , . / 
-COMMENT START HEAD_ATTRIBUTES ALLSYMBOLS BODY_ATTRIBUTES TITLE HTML BODY HTML_ATTRIBUTES VALUE
-Q
+START_STATE HTML_TAG HTML_BLOCK HEAD_TAG HEAD_BLOCK TITLE_TAG TITLE_BLOCK LINK_TAG SCRIPT_TAG BODY_TAG BODY_BLOCK END_STATE
+HTML ENDHTML HEAD ENDHEAD BODY ENDBODY TITLE ENDTITLE CLOSETAG HEAD ENDHEAD ID_ATTR CLASS_ATTR STYLE_ATTR
+HTML CLOSETAG ENDHTML HEAD ENDHEAD BODY ENDBODY TYPO
+START_STATE
 Z0
-Q
+START_STATE
 E
-Q epsilon Z0 Q [START][Z0]
-Q epsilon START Q <html[HTML_ATTRIBUTES]>[HTML]</html>
-Q epsilon HTML Q <head[HEAD_ATTRIBUTES]>[TITLE]</head><body[BODY_ATTRIBUTES]>[BODY]</body>
-Q epsilon BODY_ATTRIBUTES Q [EMPTY]
-Q epsilon BODY_ATTRIBUTES Q style="[VALUE]"
-Q epsilon BODY_ATTRIBUTES Q [EMPTY]
-Q epsilon BODY_ATTRIBUTES Q class="[VALUE]"
-Q epsilon BODY_ATTRIBUTES Q [EMPTY]
-Q epsilon BODY_ATTRIBUTES Q id="[VALUE]"
-Q epsilon HTML_ATTRIBUTES Q [EMPTY]
-Q epsilon HTML_ATTRIBUTES Q id="[VALUE]"
-Q epsilon HTML_ATTRIBUTES Q [EMPTY]
-Q epsilon HTML_ATTRIBUTES Q class="[VALUE]"
-Q epsilon HTML_ATTRIBUTES Q [EMPTY]
-Q epsilon HTML_ATTRIBUTES Q style="[VALUE]"
-Q epsilon HEAD_ATTRIBUTES Q [EMPTY]
-Q epsilon HEAD_ATTRIBUTES Q id="[VALUE]"
-Q epsilon HEAD_ATTRIBUTES Q [EMPTY]
-Q epsilon HEAD_ATTRIBUTES Q class="[VALUE]"
-Q epsilon HEAD_ATTRIBUTES Q [EMPTY]
-Q epsilon HEAD_ATTRIBUTES Q style="[VALUE]"
-Q epsilon TITLE Q <title>[COMMENT]</title>
-Q epsilon COMMENT Q [EMPTY]
-Q epsilon COMMENT Q <!---->
-Q epsilon TITLE Q [EMPTY]
-Q epsilon BODY Q [COMMENT]
-Q epsilon BODY Q [VALUE]
-Q epsilon BODY Q [EMPTY]
-Q epsilon VALUE V [EMPTY]
-Q epsilon ALLSYMBOLS Q [EMPTY]
-Q q q Q [EMPTY]
-Q w w Q [EMPTY]
-Q e e Q [EMPTY]
-Q r r Q [EMPTY]
-Q t t Q [EMPTY]
-Q y y Q [EMPTY]
-Q u u Q [EMPTY]
-Q i i Q [EMPTY]
-Q o o Q [EMPTY]
-Q p p Q [EMPTY]
-Q a a Q [EMPTY]
-Q s s Q [EMPTY]
-Q d d Q [EMPTY]
-Q f f Q [EMPTY]
-Q g g Q [EMPTY]
-Q h h Q [EMPTY]
-Q j j Q [EMPTY]
-Q k k Q [EMPTY]
-Q l l Q [EMPTY]
-Q z z Q [EMPTY]
-Q x x Q [EMPTY]
-Q c c Q [EMPTY]
-Q v v Q [EMPTY]
-Q b b Q [EMPTY]
-Q n n Q [EMPTY]
-Q m m Q [EMPTY]
-Q Q Q Q [EMPTY]
-Q W W Q [EMPTY]
-Q E E Q [EMPTY]
-Q R R Q [EMPTY]
-Q T T Q [EMPTY]
-Q Y Y Q [EMPTY]
-Q U U Q [EMPTY]
-Q I I Q [EMPTY]
-Q O O Q [EMPTY]
-Q P P Q [EMPTY]
-Q A A Q [EMPTY]
-Q S S Q [EMPTY]
-Q D D Q [EMPTY]
-Q F F Q [EMPTY]
-Q G G Q [EMPTY]
-Q H H Q [EMPTY]
-Q J J Q [EMPTY]
-Q K K Q [EMPTY]
-Q L L Q [EMPTY]
-Q Z Z Q [EMPTY]
-Q X X Q [EMPTY]
-Q C C Q [EMPTY]
-Q V V Q [EMPTY]
-Q B B Q [EMPTY]
-Q N N Q [EMPTY]
-Q M M Q [EMPTY]
-Q 1 1 Q [EMPTY]
-Q 2 2 Q [EMPTY]
-Q 3 3 Q [EMPTY]
-Q 4 4 Q [EMPTY]
-Q 5 5 Q [EMPTY]
-Q 6 6 Q [EMPTY]
-Q 7 7 Q [EMPTY]
-Q 8 8 Q [EMPTY]
-Q 9 9 Q [EMPTY]
-Q 0 0 Q [EMPTY]
-Q " " Q [EMPTY]
-Q ' ' Q [EMPTY]
-Q ` ` Q [EMPTY]
-Q ~ ~ Q [EMPTY]
-Q ! ! Q [EMPTY]
-Q @ @ Q [EMPTY]
-Q # # Q [EMPTY]
-Q $ $ Q [EMPTY]
-Q % % Q [EMPTY]
-Q ^ ^ Q [EMPTY]
-Q & & Q [EMPTY]
-Q * * Q [EMPTY]
-Q ( ( Q [EMPTY]
-Q ) ) Q [EMPTY]
-Q _ _ Q [EMPTY]
-Q + + Q [EMPTY]
-Q - - Q [EMPTY]
-Q = = Q [EMPTY]
-Q [ [ Q [EMPTY]
-Q ] ] Q [EMPTY]
-Q \ \ Q [EMPTY]
-Q { { Q [EMPTY]
-Q } } Q [EMPTY]
-Q | | Q [EMPTY]
-Q ; ; Q [EMPTY]
-Q < < Q [EMPTY]
-Q > > Q [EMPTY]
-Q ? ? Q [EMPTY]
-Q , , Q [EMPTY]
-Q . . Q [EMPTY]
-Q / / Q [EMPTY]
+
+
+################################
+##### TRANSITION FUNCTIONS #####
+################################
+
+# Untuk mempermudah, state ditulis dengan underscore
+# Format penulisan adalah:
+# start_state inputsymbol startstack end_state endstack
+
+
+# Open HTML Tag
+START_STATE HTML Z0 HTML_TAG [HEAD][BODY][ENDHTML][Z0]
+
+# HTML Tag Attributes
+HTML_TAG ID_ATTR epsilon HTML_TAG [EMPTY]
+HTML_TAG CLASS_ATTR epsilon HTML_TAG [EMPTY]
+HTML_TAG STYLE_ATTR epsilon HTML_TAG [EMPTY]
+HTML_TAG CLOSETAG epsilon HTML_BLOCK [EMPTY]
+
+    # Open HEAD Tag
+    HTML_BLOCK HEAD HEAD HEAD_TAG [ENDHEAD]
+
+    # HEAD Attributes
+    HEAD_TAG ID_ATTR epsilon HEAD_TAG [EMPTY]
+    HEAD_TAG CLASS_ATTR epsilon HEAD_TAG [EMPTY]
+    HEAD_TAG STYLE_ATTR epsilon HEAD_TAG [EMPTY]
+    HEAD_TAG CLOSETAG epsilon HEAD_BLOCK [EMPTY]
+
+        # Open Tags available in HEAD (OPTIONAL)
+        HEAD_BLOCK LINK epsilon LINK_TAG_REJECT [EMPTY]
+        HEAD_BLOCK TITLE epsilon TITLE_TAG [ENDTITLE]
+        HEAD_BLOCK SCRIPT epsilon SCRIPT_TAG [ENDSCRIPT]
+
+        # LINK Attributes
+        LINK_TAG_REJECT ID_ATTR epsilon LINK_TAG_REJECT [EMPTY]
+        LINK_TAG_REJECT CLASS_ATTR epsilon LINK_TAG_REJECT [EMPTY]
+        LINK_TAG_REJECT STYLE_ATTR epsilon LINK_TAG_REJECT [EMPTY]
+        LINK_TAG_REJECT HREF_ATTR epsilon LINK_TAG_REJECT [EMPTY]
+        LINK_TAG_REJECT REL_ATTR epsilon LINK_TAG_ACCEPT [EMPTY]
+        
+        LINK_TAG_ACCEPT ID_ATTR epsilon LINK_TAG_ACCEPT [EMPTY]
+        LINK_TAG_ACCEPT CLASS_ATTR epsilon LINK_TAG_ACCEPT [EMPTY]
+        LINK_TAG_ACCEPT STYLE_ATTR epsilon LINK_TAG_ACCEPT [EMPTY]
+        LINK_TAG_ACCEPT HREF_ATTR epsilon LINK_TAG_ACCEPT [EMPTY]
+        LINK_TAG_ACCEPT REL_ATTR epsilon LINK_TAG_ACCEPT [EMPTY]
+        LINK_TAG_ACCEPT CLOSETAG epsilon LINK_TAG_ACCEPT [EMPTY]
+
+        # SCRIPT Attributes
+        SCRIPT_TAG ID_ATTR epsilon SCRIPT_TAG [EMPTY]
+        SCRIPT_TAG CLASS_ATTR epsilon SCRIPT_TAG [EMPTY]
+        SCRIPT_TAG STYLE_ATTR epsilon SCRIPT_TAG [EMPTY]
+        SCRIPT_TAG SRC_ATTR epsilon SCRIPT_TAG [EMPTY]
+        SCRIPT_TAG CLOSETAG epsilon SCRIPT_BLOCK [EMPTY]
+
+        # Close SCRIPT
+        SCRIPT_BLOCK ENDSCRIPT ENDSCRIPT HEAD_BLOCK [EMPTY]
+        
+
+        # TITLE Attributes
+        TITLE_TAG ID_ATTR epsilon TITLE_TAG [EMPTY]
+        TITLE_TAG CLASS_ATTR epsilon TITLE_TAG [EMPTY]
+        TITLE_TAG STYLE_ATTR epsilon TITLE_TAG [EMPTY]
+        TITLE_TAG CLOSETAG epsilon TITLE_BLOCK [EMPTY]
+
+        # Close TITLE
+        TITLE_BLOCK ENDTITLE ENDTITLE HEAD_BLOCK [EMPTY]
+
+    # Close HEAD Tag
+    HEAD_BLOCK ENDHEAD ENDHEAD HTML_BLOCK [EMPTY]
+
+    # Open BODY Tag
+    HTML_BLOCK BODY BODY BODY_TAG [ENDBODY]
+
+    # BLOCK Attributes
+    BODY_TAG ID_ATTR epsilon BODY_TAG [EMPTY]
+    BODY_TAG CLASS_ATTR epsilon BODY_TAG [EMPTY]
+    BODY_TAG STYLE_ATTR epsilon BODY_TAG [EMPTY]
+    BODY_TAG CLOSETAG epsilon BODY_BLOCK [EMPTY]
+
+
+
+#########
+        # NORMAL TAGS 
+        #
+        # Open H1..H6 Tags (Optional)
+        BODY_BLOCK H1 epsilon H1_TAG [ENDH1]
+        BODY_BLOCK H2 epsilon H2_TAG [ENDH2]
+        BODY_BLOCK H3 epsilon H3_TAG [ENDH3]
+        BODY_BLOCK H4 epsilon H4_TAG [ENDH4]
+        BODY_BLOCK H5 epsilon H5_TAG [ENDH5]
+        BODY_BLOCK H6 epsilon H6_TAG [ENDH6]
+
+        # H1..H6 Attributes
+        H1_TAG ID_ATTR epsilon H1_TAG [EMPTY]
+        H1_TAG CLASS_ATTR epsilon H1_TAG [EMPTY]
+        H1_TAG STYLE_ATTR epsilon H1_TAG [EMPTY]
+        H1_TAG CLOSETAG epsilon BODY_BLOCK [EMPTY]
+
+        H2_TAG ID_ATTR epsilon H2_TAG [EMPTY]
+        H2_TAG CLASS_ATTR epsilon H2_TAG [EMPTY]
+        H2_TAG STYLE_ATTR epsilon H2_TAG [EMPTY]
+        H2_TAG CLOSETAG epsilon BODY_BLOCK [EMPTY]
+
+        H3_TAG ID_ATTR epsilon H3_TAG [EMPTY]
+        H3_TAG CLASS_ATTR epsilon H3_TAG [EMPTY]
+        H3_TAG STYLE_ATTR epsilon H3_TAG [EMPTY]
+        H3_TAG CLOSETAG epsilon BODY_BLOCK [EMPTY]
+
+        H4_TAG ID_ATTR epsilon H4_TAG [EMPTY]
+        H4_TAG CLASS_ATTR epsilon H4_TAG [EMPTY]
+        H4_TAG STYLE_ATTR epsilon H4_TAG [EMPTY]
+        H4_TAG CLOSETAG epsilon BODY_BLOCK [EMPTY]
+
+        H5_TAG ID_ATTR epsilon H5_TAG [EMPTY]
+        H5_TAG CLASS_ATTR epsilon H5_TAG [EMPTY]
+        H5_TAG STYLE_ATTR epsilon H5_TAG [EMPTY]
+        H5_TAG CLOSETAG epsilon BODY_BLOCK [EMPTY]
+
+        H6_TAG ID_ATTR epsilon H6_TAG [EMPTY]
+        H6_TAG CLASS_ATTR epsilon H6_TAG [EMPTY]
+        H6_TAG STYLE_ATTR epsilon H6_TAG [EMPTY]
+        H6_TAG CLOSETAG epsilon BODY_BLOCK [EMPTY]
+
+
+        # Open P EM B ABBR STRONG SMALL TAGS
+        BODY_BLOCK P epsilon P_TAG [ENDP]
+        BODY_BLOCK EM epsilon EM_TAG [ENDEM]
+        BODY_BLOCK B epsilon B_TAG [ENDB]
+        BODY_BLOCK ABBR epsilon ABBR_TAG [ENDABBR]
+        BODY_BLOCK STRONG epsilon STRONG_TAG [ENDSTRONG]
+        BODY_BLOCK SMALL epsilon SMALL_TAG [ENDSMALL]
+
+        # P EM B ABBR STRONG SMALL Attributes
+        P_TAG ID_ATTR epsilon P_TAG [EMPTY]
+        P_TAG CLASS_ATTR epsilon P_TAG [EMPTY]
+        P_TAG STYLE_ATTR epsilon P_TAG [EMPTY]
+        P_TAG CLOSETAG epsilon BODY_BLOCK [EMPTY]
+
+        EM_TAG ID_ATTR epsilon EM_TAG [EMPTY]
+        EM_TAG CLASS_ATTR epsilon EM_TAG [EMPTY]
+        EM_TAG STYLE_ATTR epsilon EM_TAG [EMPTY]
+        EM_TAG CLOSETAG epsilon BODY_BLOCK [EMPTY]
+
+        B_TAG ID_ATTR epsilon B_TAG [EMPTY]
+        B_TAG CLASS_ATTR epsilon B_TAG [EMPTY]
+        B_TAG STYLE_ATTR epsilon B_TAG [EMPTY]
+        B_TAG CLOSETAG epsilon BODY_BLOCK [EMPTY]
+
+        ABBR_TAG ID_ATTR epsilon ABBR_TAG [EMPTY]
+        ABBR_TAG CLASS_ATTR epsilon ABBR_TAG [EMPTY]
+        ABBR_TAG STYLE_ATTR epsilon ABBR_TAG [EMPTY]
+        ABBR_TAG CLOSETAG epsilon BODY_BLOCK [EMPTY]
+
+        STRONG_TAG ID_ATTR epsilon STRONG_TAG [EMPTY]
+        STRONG_TAG CLASS_ATTR epsilon STRONG_TAG [EMPTY]
+        STRONG_TAG STYLE_ATTR epsilon STRONG_TAG [EMPTY]
+        STRONG_TAG CLOSETAG epsilon BODY_BLOCK [EMPTY]
+
+        SMALL_TAG ID_ATTR epsilon SMALL_TAG [EMPTY]
+        SMALL_TAG CLASS_ATTR epsilon SMALL_TAG [EMPTY]
+        SMALL_TAG STYLE_ATTR epsilon SMALL_TAG [EMPTY]
+        SMALL_TAG CLOSETAG epsilon BODY_BLOCK [EMPTY]
+
+
+        # Close the above 12 tags
+        BODY_BLOCK ENDH1 ENDH1 BODY_BLOCK [EMPTY]
+        BODY_BLOCK ENDH2 ENDH2 BODY_BLOCK [EMPTY]
+        BODY_BLOCK ENDH3 ENDH3 BODY_BLOCK [EMPTY]
+        BODY_BLOCK ENDH4 ENDH4 BODY_BLOCK [EMPTY]
+        BODY_BLOCK ENDH5 ENDH5 BODY_BLOCK [EMPTY]
+        BODY_BLOCK ENDH6 ENDH6 BODY_BLOCK [EMPTY]
+        BODY_BLOCK ENDP ENDP BODY_BLOCK [EMPTY]
+        BODY_BLOCK ENDEM ENDEM BODY_BLOCK [EMPTY]
+        BODY_BLOCK ENDB ENDB BODY_BLOCK [EMPTY]
+        BODY_BLOCK ENDABBR ENDABBR BODY_BLOCK [EMPTY]
+        BODY_BLOCK ENDSTRONG ENDSTRONG BODY_BLOCK [EMPTY]
+        BODY_BLOCK ENDSMALL ENDSMALL BODY_BLOCK [EMPTY]
+        #
+        #
+#########
+
+
+
+#########
+        # VOID ELEMENTS
+        # 
+        # LINK, BR, HR, IMG, INPUT
+        # untuk img, src wajib ada
+        # untuk link, rel wajib ada
+        BODY_BLOCK LINK epsilon LINK_TAG_REJECT [EMPTY]
+        BODY_BLOCK BR epsilon BR_TAG [EMPTY]
+        BODY_BLOCK HR epsilon HR_TAG [EMPTY]
+        BODY_BLOCK IMG epsilon IMG_TAG [EMPTY]
+        BODY_BLOCK INPUT epsilon INPUT_TAG [EMPTY]
+
+        # BR, HR, and INPUT Attributes
+        BR_TAG ID_ATTR epsilon BR_TAG [EMPTY]
+        BR_TAG CLASS_ATTR epsilon BR_TAG [EMPTY]
+        BR_TAG STYLE_ATTR epsilon BR_TAG [EMPTY]
+        BR_TAG CLOSETAG epsilon BODY_BLOCK [EMPTY]
+
+        HR_TAG ID_ATTR epsilon HR_TAG [EMPTY]
+        HR_TAG CLASS_ATTR epsilon HR_TAG [EMPTY]
+        HR_TAG STYLE_ATTR epsilon HR_TAG [EMPTY]
+        HR_TAG CLOSETAG epsilon BODY_BLOCK [EMPTY]
+
+        INPUT_TAG ID_ATTR epsilon INPUT_TAG [EMPTY]
+        INPUT_TAG CLASS_ATTR epsilon INPUT_TAG [EMPTY]
+        INPUT_TAG STYLE_ATTR epsilon INPUT_TAG [EMPTY]
+        INPUT_TAG TYPE_ATTR epsilon INPUT_TAG [EMPTY]
+        INPUT_TAG CLOSETAG epsilon BODY_BLOCK [EMPTY]
+
+        # LINK and IMG attributes
+
+        IMG_TAG_REJECT ID_ATTR epsilon IMG_TAG_REJECT [EMPTY]
+        IMG_TAG_REJECT CLASS_ATTR epsilon IMG_TAG_REJECT [EMPTY]
+        IMG_TAG_REJECT STYLE_ATTR epsilon IMG_TAG_REJECT [EMPTY]
+        IMG_TAG_REJECT ALT_ATTR epsilon IMG_TAG_REJECT [EMPTY]
+        IMG_TAG_REJECT SRC_ATTR epsilon IMG_TAG_ACCEPT [EMPTY]
+
+        IMG_TAG_ACCEPT ID_ATTR epsilon IMG_TAG_ACCEPT [EMPTY]
+        IMG_TAG_ACCEPT CLASS_ATTR epsilon IMG_TAG_ACCEPT [EMPTY]
+        IMG_TAG_ACCEPT STYLE_ATTR epsilon IMG_TAG_ACCEPT [EMPTY]
+        IMG_TAG_ACCEPT ALT_ATTR epsilon IMG_TAG_ACCEPT [EMPTY]
+        IMG_TAG_ACCEPT REL_ATTR epsilon IMG_TAG_ACCEPT [EMPTY]
+        IMG_TAG_ACCEPT CLOSETAG epsilon IMG_TAG_ACCEPT [EMPTY]
+
+        LINK_TAG_REJECT ID_ATTR epsilon LINK_TAG_REJECT [EMPTY]
+        LINK_TAG_REJECT CLASS_ATTR epsilon LINK_TAG_REJECT [EMPTY]
+        LINK_TAG_REJECT STYLE_ATTR epsilon LINK_TAG_REJECT [EMPTY]
+        LINK_TAG_REJECT HREF_ATTR epsilon LINK_TAG_REJECT [EMPTY]
+        LINK_TAG_REJECT REL_ATTR epsilon LINK_TAG_ACCEPT [EMPTY]
+        
+        LINK_TAG_ACCEPT ID_ATTR epsilon LINK_TAG_ACCEPT [EMPTY]
+        LINK_TAG_ACCEPT CLASS_ATTR epsilon LINK_TAG_ACCEPT [EMPTY]
+        LINK_TAG_ACCEPT STYLE_ATTR epsilon LINK_TAG_ACCEPT [EMPTY]
+        LINK_TAG_ACCEPT HREF_ATTR epsilon LINK_TAG_ACCEPT [EMPTY]
+        LINK_TAG_ACCEPT REL_ATTR epsilon LINK_TAG_ACCEPT [EMPTY]
+        LINK_TAG_ACCEPT CLOSETAG epsilon LINK_TAG_ACCEPT [EMPTY]
+        #
+        #
+#########
+
+        
+
+
+    # Close BODY Tag
+    BODY_BLOCK ENDBODY ENDBODY HTML_BLOCK [EMPTY]
+    
+# Close HTML Tag
+HTML_BLOCK ENDHTML ENDHTML END_STATE [EMPTY]

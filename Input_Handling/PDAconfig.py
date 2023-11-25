@@ -24,6 +24,26 @@ def getWords(line):
 
     return Words
 
+def getFiveWords(line):
+    
+    count = 0
+    current_word = ""
+    words = ["" for i in range(5)]
+    for i in line:
+        
+        if i == " " and count < 4:
+            words[count] = current_word
+            count += 1
+            current_word = ""
+
+        elif count == 4:
+            if i != "\n":
+                words[4] += i
+
+        else:
+            current_word += i
+    
+    return words
 
 def getPDA(file_name):
     # Buka File
@@ -42,7 +62,7 @@ def getPDA(file_name):
     states_dict = {} # Keynya string valuenya state,  Productions dijadiin transition function
 
     for line in f:
-        if (line_count ==1):
+        if (line_count == 1):
             for i in getWords(line):
                 states_dict[i] = state(i)
                 states.add(states_dict[i])
@@ -62,16 +82,30 @@ def getPDA(file_name):
                 accept |= {"F"}
             if ("E" in getWords(line)):
                 accept |= {"E"}
+        elif (line[0] == '\n'):
+            pass
+        elif (line.strip(" ")[0] in ['#', '\n']):
+            pass
+
         else:
-            _ = getWords(line)
+        
+            _ = getFiveWords(line.strip())
             
             s1=_[0]
-            s2= epsilon if (_[1] == "epsilon") else _[1]
+            if _[1] == "epsilon":
+                s2 = epsilon
+            else:
+                s2 = _[1]
+
             try:
-                s3= epsilon if (_[2] == '[EMPTY]') else _[2]
+                if _[2] == "epsilon":
+                    s3 = epsilon
+                else:
+                    s3 = _[2]
             except:
                 print(line_count)
                 print(_)
+
             s4= _[3]
 
             listOfStackValues = []
@@ -79,7 +113,9 @@ def getPDA(file_name):
             try:
                 s5 = _[4]
             except:
+                print("S5")
                 print(line_count)
+
             if s5 in ['[', ']']:
                 listOfStackValues.append(s5) 
 
@@ -101,12 +137,18 @@ def getPDA(file_name):
                             i += 1
                             char = s5[i]
                         
-                        if token != "EMPTY":
+                        if token == "EMPTY":
+                            pass
+                        else:
                             listOfStackValues.append(token)
                         i += 1
-                
-                delta.addTransition(singleTransition(states_dict[s1], s2, s3, states_dict[s4], listOfStackValues[::-1]))
-                
+
+                try:
+                    delta.addTransition(singleTransition(states_dict[s1], s2, s3, states_dict[s4], listOfStackValues[::-1]))
+                except:
+                    print(_)
+                    print(line_count)
+            
             
         line_count += 1
     

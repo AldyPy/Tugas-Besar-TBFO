@@ -1,3 +1,0 @@
-S -> aaAS | ab
-A -> AAAaaabbc
-R -> rafghtkli
