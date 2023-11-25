@@ -8,19 +8,22 @@ parser.add_argument('htmlpath', help='Description of arg2')
 
 arguments = parser.parse_args()
 
-tc1 =   ["HTML", "ID_ATTR", "CLOSETAG", 
-            "HEAD", "STYLE_ATTR", "CLASS_ATTR", "CLOSETAG", 
-                "TITLE", "ID_ATTR", "CLOSETAG", "ENDTITLE",
-            "ENDHEAD",
-            "BODY", "CLOSETAG",
+tc1 =   ["HTML", "CLOSETAG",
+            "BODY", "CLOSETAG", 
+                "H1", "CLOSETAG", "ENDH1",
             "ENDBODY",
-        "ENDHTML"]
+            "HEAD",
+                "TITLE", "CLOSETAG", "ENDTAG",
+            "ENDHEAD",
+        "HTML"]
 
 tc2 =   ["HTML", "CLOSETAG", 
-            "HEAD", "CLOSETAG", 
-                "TITLE", "ID_ATTR", "CLOSETAG", "ENDTITLE",
+            "HEAD", "CLOSETAG",
+               "TITLE", "CLOSETAG", "ENDTITLE"
             "ENDHEAD",
             "BODY", "CLOSETAG",
+                "H1", "CLOSETAG", "ENDH1"
+                "P", "CLOSETAG", "ENDP",
             "ENDBODY",
         "ENDHTML"]
 
