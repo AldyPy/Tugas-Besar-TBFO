@@ -4,7 +4,7 @@ import sys
 parent_directory = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
 sys.path.append(parent_directory)
 
-from Input_Handling.htmlInput import *
+from Input_Handling.htmltokenizer import *
 from Input_Handling.PDAconfig import *
 from PDA_Model.PushDownAutomaton import *
 # Contoh driver program

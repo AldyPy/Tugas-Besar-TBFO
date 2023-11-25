@@ -214,7 +214,7 @@ def isEmpty(arr: list):
 # Definisi compute: fungsi yang mengembalikan TRUE jika input string diterima language PDA
 # dan FALSE jika tidak. Jangan lupa pemanggilan fungsi harus menggunakan epsilon closure 
 # dari node pertama (pada argument current_nodes).
-def compute(PDA: PushDownAutomaton, current_nodes: set[node], iterations: int, debugmode: bool) -> bool:
+def compute(PDA: PushDownAutomaton, current_nodes: set[node], arr_length: int, debugmode: bool) -> (int,bool):
 
     # print("\n\n\n")
     # print("iteration =",  iterations)
@@ -223,14 +223,13 @@ def compute(PDA: PushDownAutomaton, current_nodes: set[node], iterations: int, d
 
         if (isEmpty(i.inputstr)):
 
-            print("Ini kosong kok!\n")
-            
+            # print("Ini kosong kok!\n")
             if PDA.acceptkey == 'E' and i.stack.isEmpty(): 
-                return True
+                return 0xFFFFFFFF,True # returns -1 as error index if accepted, meaning there are no errors
             
             elif PDA.acceptkey == 'F':
                 if i.state in PDA.F:
-                    return True   
+                    return 0xFFFFFFFF,True   
 
     setOfEndNodes = set()
     for i in current_nodes:
@@ -238,11 +237,13 @@ def compute(PDA: PushDownAutomaton, current_nodes: set[node], iterations: int, d
             setOfEndNodes |= PDA.transition(i) # Semua achievable state dari set current state yg ada
     
     if debugmode:
-        print(f"\n------{iterations}-------\n")
+        print(f"\n------{arr_length}-------\n")
         for i in setOfEndNodes:
             print(i)
 
     if (isEmpty(setOfEndNodes)):
-        return False
-
-    return compute(PDA, setOfEndNodes, iterations + 1, debugmode)
+        return arr_length, False
+    
+    else:
+        arr_length = len(current_nodes.pop().inputstr)
+        return compute(PDA, setOfEndNodes, arr_length, debugmode)
