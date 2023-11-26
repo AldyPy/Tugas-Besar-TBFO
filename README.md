@@ -20,55 +20,37 @@ Here is this repository's project structure!
 │   README.md
 │
 ├───Input_Handling
-│   │   htmltokenizer.py
-│   │   PDAconfig.py
-│   │   __init__.py
-│   │
-│   └───__pycache__
-│           htmlInput.cpython-311.pyc
-│           htmlInput.cpython-39.pyc
-│           htmltokenizer.cpython-39.pyc
-│           PDAconfig.cpython-311.pyc
-│           PDAconfig.cpython-39.pyc
-│           __init__.cpython-311.pyc
-│           __init__.cpython-39.pyc
+│       htmltokenizer.py
+│       PDAconfig.py
+│       __init__.py
+│    
 │
 ├───PDA_Model
-│   │   driver.py
-│   │   PushDownAutomaton.py
-│   │   __init__.py
-│   │
-│   └───__pycache__
-│           htmlInput.cpython-312.pyc
-│           PDAconfig.cpython-312.pyc
-│           PushDownAutomaton.cpython-311.pyc
-│           PushDownAutomaton.cpython-312.pyc
-│           PushDownAutomaton.cpython-39.pyc
-│           __init__.cpython-311.pyc
-│           __init__.cpython-39.pyc
+│       driver.py
+│       PushDownAutomaton.py
+│       __init__.py
+│    
 │
-├───testcase
-│       comments_test.html
-│       comments_test2.html
-│       comments_test3.html
-│       customtc.html
-│       tabletest.html
-│       tabletest2.html
-│       tc1.html
-│       tc10.html
-│       tc11.html
-│       tc2.html
-│       tc3.html
-│       tc4.html
-│       tc5.html
-│       tc6.html
-│       tc7.html
-│       tc8.html
-│       tc9.html
-│       testcase_rafly.html
-│
-└───__pycache__
-        __init__.cpython-39.pyc
+└───testcase
+        comments_test.html
+        comments_test2.html
+        comments_test3.html
+        customtc.html
+        tabletest.html
+        tabletest2.html
+        tc1.html
+        tc10.html
+        tc11.html
+        tc2.html
+        tc3.html
+        tc4.html
+        tc5.html
+        tc6.html
+        tc7.html
+        tc8.html
+        tc9.html
+        testcase_rafly.html
+ 
 ```
 
 ## How to Run
@@ -76,7 +58,7 @@ Here is this repository's project structure!
 python main.py config.txt "[html file]"
 ```
 
-If you want to see behind the scene / process of the PDA in action, you can go ahead turn on the ***debugger*** mode in ```main.py```.
+If you want to see behind the scene / process of the PDA in action, you can go ahead turn on the ***Debug*** mode, which is a function parameter in the ***compute*** function located in ```main.py```.
 
 ## Contributors
 |Anggota|NIM|
