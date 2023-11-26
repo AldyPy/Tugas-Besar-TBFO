@@ -29,7 +29,7 @@ start_nodes = PDA.epsilonclosure(start_node)
 
 # DEBUGGER MODE HERE!
 # set the debugmode to true and you good to go!
-RemainingTokensLength,Accepted = compute(PDA, start_nodes, 1, debugmode = False)
+Q,RemainingTokensLength,Accepted = compute(PDA, start_nodes, 1, debugmode = False)
 ErrorIndex = len(InputTokens) - RemainingTokensLength
 
 # Output
