@@ -16,6 +16,8 @@ InputTokens, rowinfo, colinfo = TokenizeThisHtmlFile(arguments.htmlpath)
 start_node = node(PDA.start_state, InputTokens, stack(PDA.start_symbol))
 start_nodes = PDA.epsilonclosure(start_node)
 
+# DEBUGGER MODE HERE!
+# set the debugmode to true and you good to go!
 RemainingTokensLength,Accepted = compute(PDA, start_nodes, 1, debugmode = True)
 ErrorIndex = len(InputTokens) - RemainingTokensLength
 
