@@ -217,7 +217,7 @@ def isEmpty(arr: list):
 # Definisi compute: fungsi yang mengembalikan TRUE jika input string diterima language PDA
 # dan FALSE jika tidak. Jangan lupa pemanggilan fungsi harus menggunakan epsilon closure 
 # dari node pertama (pada argument current_nodes).
-def compute(PDA: PushDownAutomaton, current_nodes: set[node], arr_length: int, debugmode: bool) -> (int,bool):
+def compute(PDA: PushDownAutomaton, current_nodes: set[node], arr_length: int, debugmode: bool) -> (node,int,bool):
 
     # print("\n\n\n")
     # print("iteration =",  iterations)
@@ -228,17 +228,18 @@ def compute(PDA: PushDownAutomaton, current_nodes: set[node], arr_length: int, d
 
             # print("Ini kosong kok!\n")
             if PDA.acceptkey == 'E' and i.stack.isEmpty(): 
-                return 0xFFFFFFFF,True # returns -1 as error index if accepted, meaning there are no errors
+                return "",0xFFFFFFFF,True # returns -1 as error index if accepted, meaning there are no errors
             
             elif PDA.acceptkey == 'F':
                 if i.state in PDA.F:
-                    return 0xFFFFFFFF,True   
+                    return "",0xFFFFFFFF,True   
 
     setOfEndNodes = set()
     for i in current_nodes:
         if not isEmpty(i.inputstr):
             setOfEndNodes |= PDA.transition(i) # Semua achievable state dari set current state yg ada
 
+    # Removes non-unique elements from the set
     setOfEndNodes = list(setOfEndNodes)
     unique_elements = list()
     for i in range(len(setOfEndNodes)):
@@ -262,7 +263,7 @@ def compute(PDA: PushDownAutomaton, current_nodes: set[node], arr_length: int, d
             print(i)
 
     if (isEmpty(setOfEndNodes)):
-        return arr_length, False
+        return current_nodes.pop(),arr_length, False
     
     else:
         arr_length = len(current_nodes.pop().inputstr)
