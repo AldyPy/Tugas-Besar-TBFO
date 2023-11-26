@@ -68,7 +68,7 @@ def InitializeAttrLists() -> list[str]:
 # RETURNS A LIST OF EACH ATTR LOWERCASED
 # AttrList = ["id", "style", "class" ...]
     
-    AttrTokens = "ID_ATTR CLASS_ATTR STYLE_ATTR REL_ATTR HREF_ATTR SRC_ATTR ALT_ATTR TYPE_BUTTON_ATTR TYPE_INPUT_ATTR ACTION_ATTR METHOD_ATTR".split()
+    AttrTokens = "ID_ATTR CLASS_ATTR STYLE_ATTR REL_ATTR HREF_ATTR SRC_ATTR ALT_ATTR TYPE_BUTTON_ATTR TYPE_INPUT_ATTR ACTION_ATTR METHOD_ATTR TYPE_ATTR".split()
 
     # id, class, style, etc.
     AttrList = list()
@@ -81,7 +81,7 @@ def InitializeAttrEqualsLists() -> list[str]:
 # RETURNS A LIST OF EACH ATTR LOWERCASED PLUS EQUALS SIGN
 # AttrList = ["id=", "style=", "class=" ...]
     
-    AttrTokens = "ID_ATTR CLASS_ATTR STYLE_ATTR REL_ATTR HREF_ATTR SRC_ATTR ALT_ATTR TYPE_BUTTON_ATTR TYPE_INPUT_ATTR ACTION_ATTR METHOD_ATTR".split()
+    AttrTokens = "ID_ATTR CLASS_ATTR STYLE_ATTR REL_ATTR HREF_ATTR SRC_ATTR ALT_ATTR TYPE_BUTTON_ATTR TYPE_INPUT_ATTR ACTION_ATTR METHOD_ATTR TYPE_ATTR".split()
 
     # id, class, style, etc.
     AttrList = list()
@@ -135,12 +135,39 @@ def ValidateAttributes(processed_array: list[str], arr1: list[str], arr2: list[s
 # WITH THE PREV ELEMENT. WILL ALSO REMOVE THE ELEMENTS FROM THE TWO OTHER INPUT ARRAYS 
 # (BUAT ROW LINE ERROR MSG)
 
+    # Restricted attribute values
+    type_button_values = ["submit", "reset", "button"]
+    type_button_values = [(QUOTEMARK + i + QUOTEMARK) for i in type_button_values]
+    method_values = ["GET", "POST"]
+    method_values = [(QUOTEMARK + i + QUOTEMARK) for i in method_values]
+    type_input_values = ["text", "password", "email", "number", "checkbox"]
+    type_input_values = [(QUOTEMARK + i + QUOTEMARK) for i in type_input_values]
+
     RemovalIndices = list()
     for i in range(1, len(processed_array)):
-        if (processed_array[i] == (QUOTEMARK + QUOTEMARK)) and (processed_array[i-1][-1] == EQUALS):
+        if (len(processed_array[i]) > 1) and (processed_array[i][0] == QUOTEMARK) and (processed_array[i][-1] == QUOTEMARK) and (processed_array[i-1][-1] == EQUALS):
 
-            RemovalIndices.append(i)
-            processed_array[i - 1] += (QUOTEMARK + QUOTEMARK)
+            if processed_array[i-1] == "type=":
+                if processed_array[i] in type_button_values:
+                    RemovalIndices.append(i)
+                    processed_array[i - 1] = "type_button=" + QUOTEMARK + QUOTEMARK
+                    
+                elif processed_array[i] in type_input_values:
+                    RemovalIndices.append(i)
+                    processed_array[i - 1] = "type_input=" + QUOTEMARK + QUOTEMARK
+
+                else:
+                    pass # nilai atribut tidak valid, akan dijadikan RANDOM nanti
+
+                
+            elif processed_array[i-1] == "method=":
+                if processed_array[i] in method_values:
+                    RemovalIndices.append(i)
+                    processed_array[i - 1] += QUOTEMARK + QUOTEMARK
+
+            else:
+                RemovalIndices.append(i)
+                processed_array[i - 1] += (QUOTEMARK + QUOTEMARK)
 
     # Remove elements
     processed_array = [N for i,N in enumerate(processed_array) if i not in RemovalIndices]
@@ -207,17 +234,16 @@ def TokenizeThisHtmlFile(path: str) -> (list[set], list[int], list[int]):
 
             ignore = ~(ignore)
             if not ignore:
-                currentWord += QUOTEMARK
-            else:
-                AttributeValue += char
+                currentWord += AttributeValue
+                AttributeValue = BLANK
+                # print("atr val:",AttributeValue)
 
             idxCol += 1
 
         if ignore:
-            pass
+            AttributeValue += char
 
         elif char == EQUALS:
-
 
             # Kasus id =, style =, class =, etc.
             # print("PREVWORD = ", prevWord)
@@ -315,6 +341,7 @@ def TokenizeThisHtmlFile(path: str) -> (list[set], list[int], list[int]):
     # uncomment this to return the nontokenized strings instead.
     # return Tokens,TokenRowIndices,TokenColIndices,
 
+    
     q,w,e = RemoveComments(ActualTokens,TokenRowIndices,TokenColIndices)
     return q,w,e
 
@@ -343,7 +370,7 @@ if __name__ == "__main__":
 
     # Tokenss
     print("\n"*5+"~Tokens~")
-    t,trows,tcols = TokenizeThisHtmlFile("testcase/tc2.html")
+    t,trows,tcols = TokenizeThisHtmlFile("testcase/tc7.html")
 
     print("If these lengths are the same, we're good to go:\n", len(t), len(trows), len(tcols))
     for i in range(len(t)):
