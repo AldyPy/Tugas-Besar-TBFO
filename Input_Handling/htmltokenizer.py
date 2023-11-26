@@ -292,6 +292,13 @@ def TokenizeThisHtmlFile(path: str) -> (list[set], list[int], list[int]):
         else:
             currentWord += char
             idxCol += 1
+    
+    if currentWord not in [BLANK]:
+        prevWord = currentWord
+        Tokens.append(currentWord)
+        TokenRowIndices.append(idxRow)
+        TokenColIndices.append(idxCol)
+
 
     Tokens,TokenRowIndices,TokenColIndices = ValidateAttributes(Tokens,TokenRowIndices,TokenColIndices)
     Tokens,TokenRowIndices,TokenColIndices = ValidateEndTags(Tokens,TokenRowIndices,TokenColIndices)
@@ -336,7 +343,7 @@ if __name__ == "__main__":
 
     # Tokenss
     print("\n"*5+"~Tokens~")
-    t,trows,tcols = TokenizeThisHtmlFile("testcase/tabletest.html")
+    t,trows,tcols = TokenizeThisHtmlFile("testcase/tc2.html")
 
     print("If these lengths are the same, we're good to go:\n", len(t), len(trows), len(tcols))
     for i in range(len(t)):
