@@ -16,7 +16,7 @@ InputTokens, rowinfo, colinfo = TokenizeThisHtmlFile(arguments.htmlpath)
 start_node = node(PDA.start_state, InputTokens, stack(PDA.start_symbol))
 start_nodes = PDA.epsilonclosure(start_node)
 
-RemainingTokensLength,Accepted = compute(PDA, start_nodes, 1, debugmode = False)
+RemainingTokensLength,Accepted = compute(PDA, start_nodes, 1, debugmode = True)
 ErrorIndex = len(InputTokens) - RemainingTokensLength
 
 if (Accepted):
@@ -29,4 +29,4 @@ else:
     else:
         Line = rowinfo[ErrorIndex+1]
         Column = colinfo[ErrorIndex+1]
-    print(f"\x1b[31mSyntax Error\x1b[30m" + f" at [Ln {Line}, Col {Column}]")
+    print(f"\x1b[31mSyntax Error\x1b[36m" + f" at [Ln {Line}, Col {Column}]\x1b[30m")

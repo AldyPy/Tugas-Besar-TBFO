@@ -208,6 +208,9 @@ class PushDownAutomaton():
         return resultingNodes       # Jika tidak ditemukan transisi yang bisa dijalankan,
                                     #  maka actualResultingNodes akan kosong
 
+def isSameNode(node1: node, node2: node):
+    return (node1.inputstr == node2.inputstr) and (node1.stack.elements == node2.stack.elements) and (node1.state == node2.state)
+
 def isEmpty(arr: list):
     return (len(arr) == 0)
 
@@ -235,6 +238,23 @@ def compute(PDA: PushDownAutomaton, current_nodes: set[node], arr_length: int, d
     for i in current_nodes:
         if not isEmpty(i.inputstr):
             setOfEndNodes |= PDA.transition(i) # Semua achievable state dari set current state yg ada
+
+    setOfEndNodes = list(setOfEndNodes)
+    unique_elements = list()
+    for i in range(len(setOfEndNodes)):
+        unique = True
+        for j in range(len(unique_elements)):
+            condition1 = (setOfEndNodes[i].stack.elements == unique_elements[j].stack.elements)
+            condition2 = (setOfEndNodes[i].inputstr == unique_elements[j].inputstr)
+            condition3 = (setOfEndNodes[i].state == unique_elements[j].state)
+            if (condition1 and condition2 and condition3):
+                unique = False
+                break
+            
+        if unique:
+            unique_elements.append(setOfEndNodes[i])
+        
+    setOfEndNodes = set(unique_elements)
     
     if debugmode:
         print(f"\n------{arr_length}-------\n")
